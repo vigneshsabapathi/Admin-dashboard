@@ -11,8 +11,8 @@ const TenantMaster = () => {
       {
         tenantId: "BIAL2023",
         tenantName: "Bangalore International Airport",
-        adminId: "nirmal.trustgrid@gmail.com",
-        contact: "7182781391",
+        adminId: "nirmal@gmail.com",
+        contact: "7182785555",
         tenantCategory: "JOB",
       },
       // Add other rows as necessary

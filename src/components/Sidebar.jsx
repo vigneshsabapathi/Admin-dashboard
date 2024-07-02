@@ -16,7 +16,7 @@ const Sidebar = () => {
   return (
     <div className="bg-blue-600 text-white w-64 min-h-screen flex flex-col">
       <div className="flex items-center justify-center h-16 shadow-md">
-        <h1 className="text-2xl font-bold">TrustGrid</h1>
+        <h1 className="text-2xl font-bold">Company</h1>
       </div>
       <nav className="flex-1 px-2 py-4 space-y-2">
         <Link

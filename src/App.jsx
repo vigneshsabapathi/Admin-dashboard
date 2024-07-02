@@ -20,6 +20,7 @@ import SchedulerForm from "./components/SchedulerForm";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import ActivityLog from "./pages/ActivityLog";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 function App() {
@@ -105,6 +106,10 @@ const Main = () => {
             />
             <Route path="/settings" element={user ? <Settings /> : <Login />} />
             <Route path="/profile" element={user ? <Profile /> : <Login />} />
+            <Route
+              path="/activity-log"
+              element={user ? <ActivityLog /> : <Login />}
+            />
           </Routes>
         </div>
       </div>
