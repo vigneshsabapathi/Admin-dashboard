@@ -19,13 +19,14 @@ import TenantSupportForm from "./components/TenantSupportForm";
 import TenantAdminAuditForm from "./components/TenantAdminAuditForm";
 import SchedulerForm from "./components/SchedulerForm";
 import Login from "./pages/Login";
-import Settings from "./pages/Settings";
+import ProfileSettings from "./pages/ProfileSettings"; // Make sure this is the correct path
 import Profile from "./pages/Profile";
 import ActivityLog from "./pages/ActivityLog";
 import DataGrid from "./pages/DataGrid";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import UsageStatistics from "./pages/UsageStatistics";
-import UsageAnalytics from "./pages/UsageAnalytics"; // Add this line
+import UsageAnalytics from "./pages/UsageAnalytics";
+import SystemSettings from "./pages/SystemSettings"; // Add this line
 
 function App() {
   return (
@@ -116,9 +117,16 @@ const Main = () => {
             <Route
               path="/usage-analytics"
               element={user ? <UsageAnalytics /> : <Login />}
+            />
+            <Route
+              path="/system-settings"
+              element={user ? <SystemSettings /> : <Login />}
             />{" "}
             {/* Add this line */}
-            <Route path="/settings" element={user ? <Settings /> : <Login />} />
+            <Route
+              path="/settings"
+              element={user ? <ProfileSettings /> : <Login />}
+            />
             <Route path="/profile" element={user ? <Profile /> : <Login />} />
             <Route
               path="/activity-log"

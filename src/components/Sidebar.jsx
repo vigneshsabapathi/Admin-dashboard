@@ -12,6 +12,7 @@ import {
   PencilAltIcon,
   TableIcon,
   TrendingUpIcon,
+  CogIcon, // Add this line
 } from "@heroicons/react/solid";
 
 const Sidebar = () => {
@@ -97,6 +98,13 @@ const Sidebar = () => {
         >
           <TrendingUpIcon className="h-5 w-5 mr-3" />
           Usage Analytics
+        </Link>
+        <Link
+          to="/system-settings" // Add this block
+          className="flex items-center px-4 py-2 text-white hover:bg-blue-700 rounded-md"
+        >
+          <CogIcon className="h-5 w-5 mr-3" />
+          System Settings
         </Link>
       </nav>
     </div>
