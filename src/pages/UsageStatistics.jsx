@@ -1,4 +1,4 @@
-// src/pages/Dashboard.jsx
+// src/pages/UsageStatistics.jsx
 import React, { useMemo } from "react";
 import {
   useTable,
@@ -21,7 +21,7 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
       <input
         value={globalFilter || ""}
         onChange={(e) => setGlobalFilter(e.target.value)}
-        placeholder="Search for customer's name"
+        placeholder="Search"
         className="border rounded p-2 w-full"
       />
     </span>
@@ -61,43 +61,38 @@ const AvatarCell = ({ value }) => {
   );
 };
 
-const Dashboard = () => {
+const UsageStatistics = () => {
   const data = useMemo(
     () => [
       {
         customer: "avatar1.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        usage: "200 GB",
+        date: "Jan 6, 2024",
+        status: "ACTIVE",
       },
       {
         customer: "avatar2.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "FAILED",
+        usage: "150 GB",
+        date: "Feb 10, 2024",
+        status: "INACTIVE",
       },
       {
         customer: "avatar3.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        usage: "300 GB",
+        date: "Mar 14, 2024",
+        status: "ACTIVE",
       },
       {
         customer: "avatar4.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        usage: "100 GB",
+        date: "Apr 18, 2024",
+        status: "INACTIVE",
       },
       {
         customer: "avatar.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        usage: "50 GB",
+        date: "May 20, 2024",
+        status: "ACTIVE",
       },
     ],
     []
@@ -120,19 +115,15 @@ const Dashboard = () => {
         Cell: AvatarCell,
       },
       {
-        Header: "Deposit",
-        accessor: "deposit",
+        Header: "Usage",
+        accessor: "usage",
       },
       {
         Header: "Date",
         accessor: "date",
       },
       {
-        Header: "Voucher No.",
-        accessor: "voucher",
-      },
-      {
-        Header: "Trans. Status",
+        Header: "Status",
         accessor: "status",
         Cell: StatusCell,
       },
@@ -168,51 +159,29 @@ const Dashboard = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Overview</h1>
+      <h1 className="text-2xl font-bold mb-4">Usage Statistics</h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total outstanding balance
+            Total Data Used
           </h2>
-          <p className="text-2xl font-bold text-gray-900">6,078,288</p>
+          <p className="text-2xl font-bold text-gray-900">6,078 GB</p>
+        </div>
+        <div className="bg-white p-4 shadow rounded-lg">
+          <h2 className="text-sm font-semibold text-gray-600">Active Users</h2>
+          <p className="text-2xl font-bold text-gray-900">1,200</p>
         </div>
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total repayment pending
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">72,864</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total transaction counts
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">3,062</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total active users
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">1,450</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total new sign-ups
+            Inactive Users
           </h2>
           <p className="text-2xl font-bold text-gray-900">300</p>
         </div>
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total Expenditure
+            Suspended Users
           </h2>
-          <p className="text-2xl font-bold text-gray-900">$134,567</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">Total Profit</h2>
-          <p className="text-2xl font-bold text-gray-900">$ 834,567</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">Total revenue</h2>
-          <p className="text-2xl font-bold text-gray-900">$1,234,567</p>
+          <p className="text-2xl font-bold text-gray-900">3</p>
         </div>
       </div>
 
@@ -321,4 +290,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default UsageStatistics;

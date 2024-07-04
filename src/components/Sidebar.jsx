@@ -11,6 +11,7 @@ import {
   InboxIcon,
   PencilAltIcon,
   TableIcon,
+  TrendingUpIcon,
 } from "@heroicons/react/solid";
 
 const Sidebar = () => {
@@ -82,6 +83,20 @@ const Sidebar = () => {
         >
           <TableIcon className="h-5 w-5 mr-3" />
           DBGRID
+        </Link>
+        <Link
+          to="/usage-statistics"
+          className="flex items-center px-4 py-2 text-white hover:bg-blue-700 rounded-md"
+        >
+          <TrendingUpIcon className="h-5 w-5 mr-3" />
+          Usage Statistics
+        </Link>
+        <Link
+          to="/usage-analytics"
+          className="flex items-center px-4 py-2 text-white hover:bg-blue-700 rounded-md"
+        >
+          <TrendingUpIcon className="h-5 w-5 mr-3" />
+          Usage Analytics
         </Link>
       </nav>
     </div>

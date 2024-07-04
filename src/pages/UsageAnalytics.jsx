@@ -1,4 +1,4 @@
-// src/pages/Dashboard.jsx
+// src/pages/UsageAnalytics.jsx
 import React, { useMemo } from "react";
 import {
   useTable,
@@ -21,7 +21,7 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
       <input
         value={globalFilter || ""}
         onChange={(e) => setGlobalFilter(e.target.value)}
-        placeholder="Search for customer's name"
+        placeholder="Search for user's name"
         className="border rounded p-2 w-full"
       />
     </span>
@@ -31,7 +31,7 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
 // Custom Status cell component
 const StatusCell = ({ value }) => {
   const statusColor =
-    value === "SUCCESSFUL"
+    value === "ACTIVE"
       ? "bg-green-100 text-green-800"
       : "bg-red-100 text-red-800";
   return (
@@ -61,43 +61,43 @@ const AvatarCell = ({ value }) => {
   );
 };
 
-const Dashboard = () => {
+const UsageAnalytics = () => {
   const data = useMemo(
     () => [
       {
-        customer: "avatar1.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        user: "avatar1.png",
+        usage: "54 hours",
+        date: "2024-06-01 10:20",
+        activity: "Logged in",
+        status: "ACTIVE",
       },
       {
-        customer: "avatar2.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "FAILED",
+        user: "avatar2.png",
+        usage: "78 hours",
+        date: "2024-06-01 09:15",
+        activity: "Uploaded document",
+        status: "INACTIVE",
       },
       {
-        customer: "avatar3.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        user: "avatar3.png",
+        usage: "22 hours",
+        date: "2024-06-01 11:30",
+        activity: "Downloaded report",
+        status: "ACTIVE",
       },
       {
-        customer: "avatar4.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        user: "avatar4.png",
+        usage: "100 hours",
+        date: "2024-06-01 08:45",
+        activity: "Changed password",
+        status: "ACTIVE",
       },
       {
-        customer: "avatar.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
+        user: "avatar.png",
+        usage: "65 hours",
+        date: "2024-06-01 12:00",
+        activity: "Logged out",
+        status: "ACTIVE",
       },
     ],
     []
@@ -106,33 +106,24 @@ const Dashboard = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "",
-        accessor: "checkbox",
-        Cell: ({ row }) => (
-          <div>
-            <input type="checkbox" {...row.getToggleRowSelectedProps()} />
-          </div>
-        ),
-      },
-      {
-        Header: "Customer",
-        accessor: "customer",
+        Header: "User",
+        accessor: "user",
         Cell: AvatarCell,
       },
       {
-        Header: "Deposit",
-        accessor: "deposit",
+        Header: "Usage",
+        accessor: "usage",
       },
       {
         Header: "Date",
         accessor: "date",
       },
       {
-        Header: "Voucher No.",
-        accessor: "voucher",
+        Header: "Activity",
+        accessor: "activity",
       },
       {
-        Header: "Trans. Status",
+        Header: "Status",
         accessor: "status",
         Cell: StatusCell,
       },
@@ -168,51 +159,31 @@ const Dashboard = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Overview</h1>
+      <h1 className="text-2xl font-bold mb-4">Usage Analytics</h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total outstanding balance
+            Total Active Users
           </h2>
-          <p className="text-2xl font-bold text-gray-900">6,078,288</p>
+          <p className="text-2xl font-bold text-gray-900">4</p>
         </div>
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total repayment pending
+            Total Inactive Users
           </h2>
-          <p className="text-2xl font-bold text-gray-900">72,864</p>
+          <p className="text-2xl font-bold text-gray-900">1</p>
         </div>
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total transaction counts
+            Average Usage Time
           </h2>
-          <p className="text-2xl font-bold text-gray-900">3,062</p>
+          <p className="text-2xl font-bold text-gray-900">64 hours</p>
         </div>
         <div className="bg-white p-4 shadow rounded-lg">
           <h2 className="text-sm font-semibold text-gray-600">
-            Total active users
+            Average Down Time
           </h2>
-          <p className="text-2xl font-bold text-gray-900">1,450</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total new sign-ups
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">300</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total Expenditure
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">$134,567</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">Total Profit</h2>
-          <p className="text-2xl font-bold text-gray-900">$ 834,567</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">Total revenue</h2>
-          <p className="text-2xl font-bold text-gray-900">$1,234,567</p>
+          <p className="text-2xl font-bold text-gray-900">22 Minutes</p>
         </div>
       </div>
 
@@ -321,4 +292,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default UsageAnalytics;

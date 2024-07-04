@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -23,6 +24,8 @@ import Profile from "./pages/Profile";
 import ActivityLog from "./pages/ActivityLog";
 import DataGrid from "./pages/DataGrid";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import UsageStatistics from "./pages/UsageStatistics";
+import UsageAnalytics from "./pages/UsageAnalytics"; // Add this line
 
 function App() {
   return (
@@ -106,6 +109,15 @@ const Main = () => {
               element={user ? <SchedulerForm /> : <Login />}
             />
             <Route path="/dbgrid" element={user ? <DataGrid /> : <Login />} />
+            <Route
+              path="/usage-statistics"
+              element={user ? <UsageStatistics /> : <Login />}
+            />
+            <Route
+              path="/usage-analytics"
+              element={user ? <UsageAnalytics /> : <Login />}
+            />{" "}
+            {/* Add this line */}
             <Route path="/settings" element={user ? <Settings /> : <Login />} />
             <Route path="/profile" element={user ? <Profile /> : <Login />} />
             <Route
