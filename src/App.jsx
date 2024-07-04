@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import ActivityLog from "./pages/ActivityLog";
+import DataGrid from "./pages/DataGrid";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 function App() {
@@ -104,6 +105,7 @@ const Main = () => {
               path="/scheduler-forms/add"
               element={user ? <SchedulerForm /> : <Login />}
             />
+            <Route path="/dbgrid" element={user ? <DataGrid /> : <Login />} />
             <Route path="/settings" element={user ? <Settings /> : <Login />} />
             <Route path="/profile" element={user ? <Profile /> : <Login />} />
             <Route

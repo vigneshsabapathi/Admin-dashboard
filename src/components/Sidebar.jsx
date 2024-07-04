@@ -10,13 +10,14 @@ import {
   ChartBarIcon,
   InboxIcon,
   PencilAltIcon,
+  TableIcon,
 } from "@heroicons/react/solid";
 
 const Sidebar = () => {
   return (
     <div className="bg-blue-600 text-white w-64 min-h-screen flex flex-col">
       <div className="flex items-center justify-center h-16 shadow-md">
-        <h1 className="text-2xl font-bold">Company</h1>
+        <h1 className="text-2xl font-bold">Admin</h1>
       </div>
       <nav className="flex-1 px-2 py-4 space-y-2">
         <Link
@@ -74,6 +75,13 @@ const Sidebar = () => {
         >
           <PencilAltIcon className="h-5 w-5 mr-3" />
           Scheduler Forms
+        </Link>
+        <Link
+          to="/dbgrid"
+          className="flex items-center px-4 py-2 text-white hover:bg-blue-700 rounded-md"
+        >
+          <TableIcon className="h-5 w-5 mr-3" />
+          DBGRID
         </Link>
       </nav>
     </div>
