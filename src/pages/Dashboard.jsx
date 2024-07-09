@@ -1,5 +1,5 @@
 // src/pages/Dashboard.jsx
-import React, { useMemo } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   useTable,
   usePagination,
@@ -7,6 +7,9 @@ import {
   useRowSelect,
 } from "react-table";
 import { SearchIcon } from "@heroicons/react/solid";
+import viewObject from "../data/dashboardViewObject.json";
+
+// Import avatar images
 import avatar1 from "../images/avatar1.png";
 import avatar2 from "../images/avatar2.png";
 import avatar3 from "../images/avatar3.png";
@@ -62,47 +65,42 @@ const AvatarCell = ({ value }) => {
 };
 
 const Dashboard = () => {
-  const data = useMemo(
-    () => [
-      {
-        customer: "avatar1.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
-      },
-      {
-        customer: "avatar2.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "FAILED",
-      },
-      {
-        customer: "avatar3.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
-      },
-      {
-        customer: "avatar4.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
-      },
-      {
-        customer: "avatar.png",
-        deposit: "NGN 34,600",
-        date: "Jan 6, 2022 09:21",
-        voucher: "00437E",
-        status: "SUCCESSFUL",
-      },
-    ],
-    []
-  );
+  // State to hold the dashboard data
+  const [dashboardData, setDashboardData] = useState(viewObject.dashboard);
 
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("dashboardViewObject");
+    if (storedData) {
+      setDashboardData(JSON.parse(storedData).dashboard);
+    }
+  }, []);
+
+  // Function to calculate stat card values
+  const calculateStatCardValue = useCallback((card, data) => {
+    switch (card.calculationType) {
+      case "static":
+        return card.value;
+      case "count":
+        return data.length;
+      default:
+        return 0;
+    }
+  }, []);
+
+  // Memoized stat card values
+  const statCardValues = useMemo(() => {
+    return dashboardData.statCards.map((card) => ({
+      ...card,
+      value: calculateStatCardValue(card, dashboardData.transactionTable.data),
+    }));
+  }, [
+    dashboardData.statCards,
+    dashboardData.transactionTable.data,
+    calculateStatCardValue,
+  ]);
+
+  // Memoized columns for the table
   const columns = useMemo(
     () => [
       {
@@ -140,6 +138,7 @@ const Dashboard = () => {
     []
   );
 
+  // Use react-table hooks
   const {
     getTableProps,
     getTableBodyProps,
@@ -157,7 +156,7 @@ const Dashboard = () => {
   } = useTable(
     {
       columns,
-      data,
+      data: dashboardData.transactionTable.data,
     },
     useGlobalFilter,
     usePagination,
@@ -168,59 +167,31 @@ const Dashboard = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Overview</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {dashboardData.metadata.pageTitle}
+      </h1>
+      {/* Stat cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total outstanding balance
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">6,078,288</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total repayment pending
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">72,864</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total transaction counts
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">3,062</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total active users
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">1,450</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total new sign-ups
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">300</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">
-            Total Expenditure
-          </h2>
-          <p className="text-2xl font-bold text-gray-900">$134,567</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">Total Profit</h2>
-          <p className="text-2xl font-bold text-gray-900">$ 834,567</p>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h2 className="text-sm font-semibold text-gray-600">Total revenue</h2>
-          <p className="text-2xl font-bold text-gray-900">$1,234,567</p>
-        </div>
+        {statCardValues.map((card) => (
+          <div key={card.id} className="bg-white p-4 shadow rounded-lg">
+            <h2 className="text-sm font-semibold text-gray-600">
+              {card.title}
+            </h2>
+            <p className="text-2xl font-bold text-gray-900">
+              {card.title.toLowerCase().includes("total") ? "$" : ""}
+              {card.value.toLocaleString()}
+            </p>
+          </div>
+        ))}
       </div>
 
+      {/* Global filter */}
       <GlobalFilter
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
 
+      {/* Transaction table */}
       <table
         {...getTableProps()}
         className="min-w-full bg-white divide-y divide-gray-200"
@@ -261,6 +232,7 @@ const Dashboard = () => {
         </tbody>
       </table>
 
+      {/* Pagination */}
       <div className="py-3 flex items-center justify-between">
         <div className="flex-1 flex justify-between sm:hidden">
           <button
@@ -313,6 +285,7 @@ const Dashboard = () => {
                   />
                 </svg>
               </button>
+              {/* Add more pagination buttons as needed */}
             </nav>
           </div>
         </div>

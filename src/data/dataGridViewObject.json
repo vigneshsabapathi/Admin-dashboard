@@ -1,0 +1,97 @@
+{
+  "dataGrid": {
+    "metadata": {
+      "pageTitle": "Data Grid"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Tasks",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Total Budget",
+        "calculationType": "sum",
+        "field": "budget"
+      },
+      {
+        "id": 3,
+        "title": "Completed Tasks",
+        "calculationType": "statusCount",
+        "status": "Completed"
+      },
+      {
+        "id": 4,
+        "title": "In Progress Tasks",
+        "calculationType": "statusCount",
+        "status": "In progress"
+      }
+    ],
+    "taskTable": {
+      "headers": [
+        { "id": "task", "label": "Task" },
+        { "id": "location", "label": "Location" },
+        { "id": "status", "label": "Status" },
+        { "id": "date", "label": "Date" },
+        { "id": "budget", "label": "Budget" },
+        { "id": "progress", "label": "Progress" },
+        { "id": "team", "label": "Team" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "task": "Build 5-stories office - Building G",
+          "location": "Northwest corner",
+          "status": "In progress",
+          "date": "Jul 01",
+          "budget": 1500000,
+          "progress": 30,
+          "team": ["avatar.png", "avatar1.png", "avatar2.png"]
+        },
+        {
+          "id": 2,
+          "task": "Roof replacement",
+          "location": "Building A",
+          "status": "Reviewing",
+          "date": "Mar 01",
+          "budget": 50000,
+          "progress": 70,
+          "team": ["avatar3.png", "avatar4.png"]
+        },
+        {
+          "id": 3,
+          "task": "Elevator service",
+          "location": "All buildings",
+          "status": "Reviewing",
+          "date": "Dec 01",
+          "budget": 5000,
+          "progress": 60,
+          "team": ["avatar.png"]
+        },
+        {
+          "id": 4,
+          "task": "Ventilation inspection",
+          "location": "Building C",
+          "status": "Completed",
+          "date": "May 01",
+          "budget": 1000,
+          "progress": 100,
+          "team": []
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Task Details",
+      "fields": [
+        { "id": "task", "label": "Task", "type": "text" },
+        { "id": "location", "label": "Location", "type": "text" },
+        { "id": "status", "label": "Status", "type": "text" },
+        { "id": "date", "label": "Date", "type": "text" },
+        { "id": "budget", "label": "Budget", "type": "text" },
+        { "id": "progress", "label": "Progress", "type": "text" },
+        { "id": "team", "label": "Team", "type": "image" }
+      ]
+    }
+  }
+}

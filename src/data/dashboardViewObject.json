@@ -1,0 +1,108 @@
+{
+  "dashboard": {
+    "metadata": {
+      "pageTitle": "Overview"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total outstanding balance",
+        "calculationType": "static",
+        "value": 6078288
+      },
+      {
+        "id": 2,
+        "title": "Total repayment pending",
+        "calculationType": "static",
+        "value": 72864
+      },
+      {
+        "id": 3,
+        "title": "Total transaction counts",
+        "calculationType": "count"
+      },
+      {
+        "id": 4,
+        "title": "Total active users",
+        "calculationType": "static",
+        "value": 1450
+      },
+      {
+        "id": 5,
+        "title": "Total new sign-ups",
+        "calculationType": "static",
+        "value": 300
+      },
+      {
+        "id": 6,
+        "title": "Total Expenditure",
+        "calculationType": "static",
+        "value": 134567
+      },
+      {
+        "id": 7,
+        "title": "Total Profit",
+        "calculationType": "static",
+        "value": 834567
+      },
+      {
+        "id": 8,
+        "title": "Total revenue",
+        "calculationType": "static",
+        "value": 1234567
+      }
+    ],
+    "transactionTable": {
+      "headers": [
+        { "id": "checkbox", "label": "" },
+        { "id": "customer", "label": "Customer" },
+        { "id": "deposit", "label": "Deposit" },
+        { "id": "date", "label": "Date" },
+        { "id": "voucher", "label": "Voucher No." },
+        { "id": "status", "label": "Trans. Status" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "customer": "avatar1.png",
+          "deposit": "NGN 34,600",
+          "date": "Jan 6, 2022 09:21",
+          "voucher": "00437E",
+          "status": "SUCCESSFUL"
+        },
+        {
+          "id": 2,
+          "customer": "avatar2.png",
+          "deposit": "NGN 34,600",
+          "date": "Jan 6, 2022 09:21",
+          "voucher": "00437E",
+          "status": "FAILED"
+        },
+        {
+          "id": 3,
+          "customer": "avatar3.png",
+          "deposit": "NGN 34,600",
+          "date": "Jan 6, 2022 09:21",
+          "voucher": "00437E",
+          "status": "SUCCESSFUL"
+        },
+        {
+          "id": 4,
+          "customer": "avatar4.png",
+          "deposit": "NGN 34,600",
+          "date": "Jan 6, 2022 09:21",
+          "voucher": "00437E",
+          "status": "SUCCESSFUL"
+        },
+        {
+          "id": 5,
+          "customer": "avatar.png",
+          "deposit": "NGN 34,600",
+          "date": "Jan 6, 2022 09:21",
+          "voucher": "00437E",
+          "status": "SUCCESSFUL"
+        }
+      ]
+    }
+  }
+}

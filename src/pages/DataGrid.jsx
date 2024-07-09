@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+// src/pages/DataGrid.jsx
+import React, { useState, useMemo, useCallback, useEffect } from "react";
+import viewObject from "../data/dataGridViewObject.json";
+
+// Import avatar images
 import avatar from "../images/avatar.png";
 import avatar1 from "../images/avatar1.png";
 import avatar2 from "../images/avatar2.png";
@@ -6,118 +10,89 @@ import avatar3 from "../images/avatar3.png";
 import avatar4 from "../images/avatar4.png";
 
 const DataGrid = () => {
-  const data = [
-    {
-      task: "Build 5-stories office - Building G",
-      location: "Northwest corner",
-      status: "In progress",
-      date: "Jul 01",
-      budget: 1500000,
-      progress: 30,
-      team: [avatar, avatar1, avatar2],
-    },
-    {
-      task: "Roof replacement",
-      location: "Building A",
-      status: "Reviewing",
-      date: "Mar 01",
-      budget: 50000,
-      progress: 70,
-      team: [avatar3, avatar4],
-    },
-    {
-      task: "Elevator service",
-      location: "All buildings",
-      status: "Reviewing",
-      date: "Dec 01",
-      budget: 5000,
-      progress: 60,
-      team: [avatar],
-    },
-    {
-      task: "Ventilation inspection",
-      location: "Building C",
-      status: "Completed",
-      date: "May 01",
-      budget: 1000,
-      progress: 100,
-      team: [],
-    },
-  ];
-
+  // State to hold the grid data
+  const [gridData, setGridData] = useState(viewObject.dataGrid);
+  // State to track the selected row
   const [selectedRow, setSelectedRow] = useState(0);
 
+  // Object to map avatar file names to imported images
+  const avatarMap = {
+    "avatar.png": avatar,
+    "avatar1.png": avatar1,
+    "avatar2.png": avatar2,
+    "avatar3.png": avatar3,
+    "avatar4.png": avatar4,
+  };
+
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("dataGridViewObject");
+    if (storedData) {
+      setGridData(JSON.parse(storedData).dataGrid);
+    }
+  }, []);
+
+  // Handler for checkbox change in the table
   const handleCheckboxChange = (index) => {
     setSelectedRow(index);
   };
 
-  useEffect(() => {
-    // By default, the first row is selected
-    setSelectedRow(0);
+  // Function to calculate stat card values
+  const calculateStatCardValue = useCallback((card, data) => {
+    switch (card.calculationType) {
+      case "count":
+        return data.length;
+      case "sum":
+        return data.reduce((sum, item) => sum + item[card.field], 0);
+      case "statusCount":
+        return data.filter((item) => item.status === card.status).length;
+      default:
+        return 0;
+    }
   }, []);
 
-  const totalTasks = data.length;
-  const totalBudget = data.reduce((sum, item) => sum + item.budget, 0);
-  const completedTasks = data.filter(
-    (item) => item.status === "Completed"
-  ).length;
-  const inProgressTasks = data.filter(
-    (item) => item.status === "In progress"
-  ).length;
+  // Memoized stat card values
+  const statCardValues = useMemo(() => {
+    return gridData.statCards.map((card) => ({
+      ...card,
+      value: calculateStatCardValue(card, gridData.taskTable.data),
+    }));
+  }, [gridData.statCards, gridData.taskTable.data, calculateStatCardValue]);
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Data Grid</h1>
+      <h1 className="text-2xl font-bold mb-4">{gridData.metadata.pageTitle}</h1>
+      {/* Stat cards */}
       <div className="grid grid-cols-4 gap-4 mb-4">
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Total Tasks</h2>
-          <p className="text-2xl font-bold">{totalTasks}</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Total Budget</h2>
-          <p className="text-2xl font-bold">${totalBudget.toLocaleString()}</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Completed Tasks</h2>
-          <p className="text-2xl font-bold">{completedTasks}</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">
-            In Progress Tasks
-          </h2>
-          <p className="text-2xl font-bold">{inProgressTasks}</p>
-        </div>
+        {statCardValues.map((card) => (
+          <div key={card.id} className="bg-white shadow rounded-lg p-4">
+            <h2 className="text-sm font-medium text-gray-500">{card.title}</h2>
+            <p className="text-2xl font-bold">
+              {card.title === "Total Budget"
+                ? `$${card.value.toLocaleString()}`
+                : card.value}
+            </p>
+          </div>
+        ))}
       </div>
+      {/* Data table */}
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Task
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Location
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Budget
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Progress
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Team
-              </th>
+              {gridData.taskTable.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {header.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data.map((item, index) => (
-              <tr key={index}>
+            {gridData.taskTable.data.map((item, index) => (
+              <tr key={item.id}>
                 <td className="px-6 py-4 whitespace-nowrap flex items-center">
                   <input
                     type="checkbox"
@@ -168,11 +143,11 @@ const DataGrid = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
-                    {item.team.map((avatar, i) => (
+                    {item.team.map((avatarFile, i) => (
                       <img
                         key={i}
                         className="h-6 w-6 rounded-full ring-2 ring-white"
-                        src={avatar}
+                        src={avatarMap[avatarFile]}
                         alt=""
                       />
                     ))}
@@ -183,91 +158,50 @@ const DataGrid = () => {
           </tbody>
         </table>
       </div>
+      {/* Selected task details */}
       <div className="mt-4 p-4 bg-white shadow sm:rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Selected Task Details</h2>
+        <h2 className="text-xl font-bold mb-4">{gridData.detailsForm.title}</h2>
         <form>
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Task
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].task}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Location
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].location}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Status
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].status}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Date
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].date}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Budget
-              </label>
-              <input
-                type="text"
-                value={`$${data[selectedRow].budget.toLocaleString()}`}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Progress
-              </label>
-              <input
-                type="text"
-                value={`${data[selectedRow].progress}%`}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Team
-              </label>
-              <div className="mt-1 flex">
-                {data[selectedRow].team.map((avatar, i) => (
-                  <img
-                    key={i}
-                    className="h-6 w-6 rounded-full ring-2 ring-white mr-2"
-                    src={avatar}
-                    alt=""
+            {gridData.detailsForm.fields.map((field) => (
+              <div
+                key={field.id}
+                className={field.id === "team" ? "col-span-2" : ""}
+              >
+                <label className="block text-sm font-medium text-gray-700">
+                  {field.label}
+                </label>
+                {field.id === "team" ? (
+                  <div className="mt-1 flex">
+                    {gridData.taskTable.data[selectedRow].team.map(
+                      (avatarFile, i) => (
+                        <img
+                          key={i}
+                          className="h-6 w-6 rounded-full ring-2 ring-white mr-2"
+                          src={avatarMap[avatarFile]}
+                          alt=""
+                        />
+                      )
+                    )}
+                  </div>
+                ) : (
+                  <input
+                    type={field.type}
+                    value={
+                      field.id === "budget"
+                        ? `$${gridData.taskTable.data[selectedRow][
+                            field.id
+                          ].toLocaleString()}`
+                        : field.id === "progress"
+                        ? `${gridData.taskTable.data[selectedRow][field.id]}%`
+                        : gridData.taskTable.data[selectedRow][field.id]
+                    }
+                    readOnly
+                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
-                ))}
+                )}
               </div>
-            </div>
+            ))}
           </div>
         </form>
       </div>
