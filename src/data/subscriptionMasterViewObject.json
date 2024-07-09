@@ -1,0 +1,132 @@
+{
+  "subscriptionMaster": {
+    "metadata": {
+      "pageTitle": "Subscription Master",
+      "addNewButtonText": "Add New"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Subscriptions",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Active Subscriptions",
+        "calculationType": "activeCount"
+      },
+      {
+        "id": 3,
+        "title": "Unique Tenants",
+        "calculationType": "uniqueCount",
+        "field": "tenantId"
+      },
+      {
+        "id": 4,
+        "title": "Subscription Categories",
+        "calculationType": "uniqueCount",
+        "field": "subscriptionCategory"
+      }
+    ],
+    "subscriptionTable": {
+      "headers": [
+        {
+          "id": "subscriptionId",
+          "label": "Subscription Id"
+        },
+        {
+          "id": "tenantId",
+          "label": "Tenant Id"
+        },
+        {
+          "id": "startDate",
+          "label": "Start Date"
+        },
+        {
+          "id": "endDate",
+          "label": "End Date"
+        },
+        {
+          "id": "subscriptionName",
+          "label": "Subscription Name"
+        },
+        {
+          "id": "subscriptionCategory",
+          "label": "Subscription Category"
+        },
+        {
+          "id": "edit",
+          "label": "Edit"
+        },
+        {
+          "id": "delete",
+          "label": "Delete"
+        }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "subscriptionId": "SUBS12345",
+          "tenantId": "TENANT001",
+          "startDate": "2024-01-01",
+          "endDate": "2024-12-31",
+          "subscriptionName": "Basic Plan",
+          "subscriptionCategory": "Category A"
+        },
+        {
+          "id": 2,
+          "subscriptionId": "SUBS67890",
+          "tenantId": "TENANT002",
+          "startDate": "2024-02-01",
+          "endDate": "2025-01-31",
+          "subscriptionName": "Premium Plan",
+          "subscriptionCategory": "Category B"
+        },
+        {
+          "id": 3,
+          "subscriptionId": "SUBS11223",
+          "tenantId": "TENANT003",
+          "startDate": "2024-03-01",
+          "endDate": "2025-02-28",
+          "subscriptionName": "Enterprise Plan",
+          "subscriptionCategory": "Category C"
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Subscription Details",
+      "fields": [
+        {
+          "id": "subscriptionId",
+          "label": "Subscription Id",
+          "type": "text"
+        },
+        {
+          "id": "tenantId",
+          "label": "Tenant Id",
+          "type": "text"
+        },
+        {
+          "id": "startDate",
+          "label": "Start Date",
+          "type": "date"
+        },
+        {
+          "id": "endDate",
+          "label": "End Date",
+          "type": "date"
+        },
+        {
+          "id": "subscriptionName",
+          "label": "Subscription Name",
+          "type": "text"
+        },
+        {
+          "id": "subscriptionCategory",
+          "label": "Subscription Category",
+          "type": "text"
+        }
+      ]
+    }
+  }
+}

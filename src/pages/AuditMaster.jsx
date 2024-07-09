@@ -1,240 +1,172 @@
-import React, { useState, useEffect } from "react";
+// src/pages/AuditMaster.jsx
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import { useNavigate } from "react-router-dom";
+import viewObject from "../data/auditMasterViewObject.json";
 
 const AuditMaster = () => {
   const navigate = useNavigate();
-
-  const data = [
-    {
-      auditId: "AUDIT12345",
-      tenantId: "TENANT001",
-      timestamp: "2024-01-01 12:00:00",
-      action: "Login",
-      ipAddress: "192.168.1.1",
-      userId: "user1@example.com",
-    },
-    {
-      auditId: "AUDIT67890",
-      tenantId: "TENANT002",
-      timestamp: "2024-01-02 14:30:00",
-      action: "Update Profile",
-      ipAddress: "192.168.1.2",
-      userId: "user2@example.com",
-    },
-    {
-      auditId: "AUDIT11223",
-      tenantId: "TENANT003",
-      timestamp: "2024-01-03 09:15:00",
-      action: "Logout",
-      ipAddress: "192.168.1.3",
-      userId: "user3@example.com",
-    },
-    {
-      auditId: "AUDIT44556",
-      tenantId: "TENANT001",
-      timestamp: "2024-01-04 16:45:00",
-      action: "Create Document",
-      ipAddress: "192.168.1.4",
-      userId: "user4@example.com",
-    },
-    {
-      auditId: "AUDIT77889",
-      tenantId: "TENANT002",
-      timestamp: "2024-01-05 11:30:00",
-      action: "Delete Record",
-      ipAddress: "192.168.1.5",
-      userId: "user5@example.com",
-    },
-  ];
-
   const [selectedRow, setSelectedRow] = useState(0);
+  const [auditData, setAuditData] = useState(viewObject.auditMaster);
 
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("auditMasterViewObject");
+    if (storedData) {
+      setAuditData(JSON.parse(storedData).auditMaster);
+    }
+  }, []);
+
+  // Handler for row click in the table
   const handleRowClick = (index) => {
     setSelectedRow(index);
   };
 
-  useEffect(() => {
-    // By default, the first row is selected
-    setSelectedRow(0);
+  // Function to calculate stat card values
+  const calculateStatCardValue = useCallback((card, data) => {
+    switch (card.calculationType) {
+      case "count":
+        return data.length;
+      case "uniqueCount":
+        return new Set(data.map((item) => item[card.field])).size;
+      default:
+        return 0;
+    }
   }, []);
 
-  const totalAudits = data.length;
-  const uniqueTenants = [...new Set(data.map((item) => item.tenantId))].length;
-  const uniqueActions = [...new Set(data.map((item) => item.action))].length;
-  const uniqueUsers = [...new Set(data.map((item) => item.userId))].length;
+  // Memoized stat card values
+  const statCardValues = useMemo(() => {
+    return auditData.statCards.map((card) => ({
+      ...card,
+      value: calculateStatCardValue(card, auditData.auditTable.data),
+    }));
+  }, [auditData.statCards, auditData.auditTable.data, calculateStatCardValue]);
+
+  // Handler for modify button click
+  const handleModify = (id) => {
+    navigate(`/audit-master/edit/${id}`);
+  };
+
+  // Handler for delete button click
+  const handleDelete = (id) => {
+    const updatedData = {
+      ...auditData,
+      auditTable: {
+        ...auditData.auditTable,
+        data: auditData.auditTable.data.filter((item) => item.id !== id),
+      },
+    };
+
+    setAuditData(updatedData);
+
+    // Update localStorage
+    const currentData = JSON.parse(
+      localStorage.getItem("auditMasterViewObject") || "{}"
+    );
+    currentData.auditMaster = updatedData;
+    localStorage.setItem("auditMasterViewObject", JSON.stringify(currentData));
+  };
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Audit Master</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {auditData.metadata.pageTitle}
+      </h1>
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
         onClick={() => navigate("/audit-master/add")}
       >
-        Add New
+        {auditData.metadata.addNewButtonText}
       </button>
       <div className="grid grid-cols-4 gap-4 mb-4">
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Total Audits</h2>
-          <p className="text-2xl font-bold">{totalAudits}</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Unique Tenants</h2>
-          <p className="text-2xl font-bold">{uniqueTenants}</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Unique Actions</h2>
-          <p className="text-2xl font-bold">{uniqueActions}</p>
-        </div>
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-sm font-medium text-gray-500">Unique Users</h2>
-          <p className="text-2xl font-bold">{uniqueUsers}</p>
-        </div>
+        {statCardValues.map((card) => (
+          <div key={card.id} className="bg-white shadow rounded-lg p-4">
+            <h2 className="text-sm font-medium text-gray-500">{card.title}</h2>
+            <p className="text-2xl font-bold">{card.value}</p>
+          </div>
+        ))}
       </div>
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Audit Id
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Tenant Id
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Timestamp
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Action
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                IP Address
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User Id
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Edit
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Delete
-              </th>
+              {auditData.auditTable.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {header.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data.map((item, index) => (
+            {auditData.auditTable.data.map((item, index) => (
               <tr
-                key={index}
+                key={item.id}
                 onClick={() => handleRowClick(index)}
                 className={`cursor-pointer ${
                   selectedRow === index ? "bg-gray-100" : ""
                 }`}
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.auditId}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.tenantId}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.timestamp}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.action}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.ipAddress}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.userId}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button className="flex items-center text-blue-500 hover:text-blue-700">
-                    <PencilAltIcon className="h-5 w-5 mr-1" />
-                    Modify
-                  </button>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button className="flex items-center text-red-500 hover:text-red-700">
-                    <TrashIcon className="h-5 w-5 mr-1" />
-                    Delete
-                  </button>
-                </td>
+                {auditData.auditTable.headers.map((header) => (
+                  <td
+                    key={`${item.id}-${header.id}`}
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                  >
+                    {header.id === "edit" ? (
+                      <button
+                        className="flex items-center text-blue-500 hover:text-blue-700"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleModify(item.id);
+                        }}
+                      >
+                        <PencilAltIcon className="h-5 w-5 mr-1" />
+                        Modify
+                      </button>
+                    ) : header.id === "delete" ? (
+                      <button
+                        className="flex items-center text-red-500 hover:text-red-700"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(item.id);
+                        }}
+                      >
+                        <TrashIcon className="h-5 w-5 mr-1" />
+                        Delete
+                      </button>
+                    ) : (
+                      item[header.id]
+                    )}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div className="mt-4 p-4 bg-white shadow sm:rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Selected Audit Details</h2>
+        <h2 className="text-xl font-bold mb-4">
+          {auditData.detailsForm.title}
+        </h2>
         <form>
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Audit Id
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].auditId}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Tenant Id
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].tenantId}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Timestamp
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].timestamp}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Action
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].action}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                IP Address
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].ipAddress}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                User Id
-              </label>
-              <input
-                type="text"
-                value={data[selectedRow].userId}
-                readOnly
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
+            {auditData.detailsForm.fields.map((field) => (
+              <div key={field.id}>
+                <label className="block text-sm font-medium text-gray-700">
+                  {field.label}
+                </label>
+                <input
+                  type={field.type}
+                  value={
+                    auditData.auditTable.data[selectedRow]?.[field.id] || ""
+                  }
+                  readOnly
+                  className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                />
+              </div>
+            ))}
           </div>
         </form>
       </div>

@@ -1,6 +1,10 @@
+// src/components/TenantForms.jsx
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import viewObject from "../data/tenantMasterViewObject.json";
 
 const TenantForms = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     tenantName: "",
     tenantId: "",
@@ -24,13 +28,37 @@ const TenantForms = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted", formData);
+    // Create a new tenant object
+    const newTenant = {
+      id: viewObject.tenantMaster.tenantTable.data.length + 1,
+      tenantId: formData.tenantId,
+      tenantName: formData.tenantName,
+      adminId: formData.adminId,
+      contact: formData.contact,
+      tenantCategory: formData.tenantCategory,
+    };
+
+    // Get the current data from localStorage or use the default viewObject
+    const currentData =
+      JSON.parse(localStorage.getItem("tenantMasterViewObject")) || viewObject;
+
+    // Add the new tenant to the data
+    currentData.tenantMaster.tenantTable.data.push(newTenant);
+
+    // Save the updated data to localStorage
+    localStorage.setItem("tenantMasterViewObject", JSON.stringify(currentData));
+
+    // Navigate back to the TenantMaster page
+    navigate("/tenant-master");
+  };
+
+  const handleCancel = () => {
+    navigate("/tenant-master");
   };
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Tenant Master</h1>
+      <h1 className="text-2xl font-bold mb-4">Add New Tenant</h1>
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Tenant Information */}
         <div>
@@ -190,6 +218,7 @@ const TenantForms = () => {
         <div className="flex justify-end mt-4">
           <button
             type="button"
+            onClick={handleCancel}
             className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2"
           >
             Cancel

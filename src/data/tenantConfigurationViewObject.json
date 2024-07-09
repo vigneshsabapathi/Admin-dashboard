@@ -1,0 +1,103 @@
+{
+  "tenantConfiguration": {
+    "metadata": {
+      "pageTitle": "Tenant Configuration",
+      "addNewButtonText": "Add New"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Configurations",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Unique Tenants",
+        "calculationType": "uniqueCount",
+        "field": "tenantId"
+      },
+      {
+        "id": 3,
+        "title": "Configuration Categories",
+        "calculationType": "uniqueCount",
+        "field": "configCategory"
+      },
+      {
+        "id": 4,
+        "title": "Unique Admins",
+        "calculationType": "uniqueCount",
+        "field": "adminEmailId"
+      }
+    ],
+    "configTable": {
+      "headers": [
+        { "id": "configId", "label": "Config ID" },
+        { "id": "tenantId", "label": "Tenant ID" },
+        { "id": "address", "label": "Address" },
+        { "id": "adminEmailId", "label": "Admin Email" },
+        { "id": "adminMobile", "label": "Admin Mobile" },
+        { "id": "configCategory", "label": "Config Category" },
+        { "id": "edit", "label": "Edit" },
+        { "id": "delete", "label": "Delete" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "configId": "CONFIG12345",
+          "tenantId": "TENANT001",
+          "address": "123 Main St, City A, Country X",
+          "adminEmailId": "admin1@example.com",
+          "adminMobile": "123-456-7890",
+          "configCategory": "General"
+        },
+        {
+          "id": 2,
+          "configId": "CONFIG67890",
+          "tenantId": "TENANT002",
+          "address": "456 Elm St, City B, Country Y",
+          "adminEmailId": "admin2@example.com",
+          "adminMobile": "234-567-8901",
+          "configCategory": "Security"
+        },
+        {
+          "id": 3,
+          "configId": "CONFIG11223",
+          "tenantId": "TENANT003",
+          "address": "789 Oak St, City C, Country Z",
+          "adminEmailId": "admin3@example.com",
+          "adminMobile": "345-678-9012",
+          "configCategory": "Billing"
+        },
+        {
+          "id": 4,
+          "configId": "CONFIG44556",
+          "tenantId": "TENANT004",
+          "address": "101 Pine St, City D, Country W",
+          "adminEmailId": "admin4@example.com",
+          "adminMobile": "456-789-0123",
+          "configCategory": "General"
+        },
+        {
+          "id": 5,
+          "configId": "CONFIG77889",
+          "tenantId": "TENANT005",
+          "address": "202 Cedar St, City E, Country V",
+          "adminEmailId": "admin5@example.com",
+          "adminMobile": "567-890-1234",
+          "configCategory": "Security"
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Configuration Details",
+      "fields": [
+        { "id": "configId", "label": "Config ID", "type": "text" },
+        { "id": "tenantId", "label": "Tenant ID", "type": "text" },
+        { "id": "address", "label": "Address", "type": "text" },
+        { "id": "adminEmailId", "label": "Admin Email", "type": "email" },
+        { "id": "adminMobile", "label": "Admin Mobile", "type": "text" },
+        { "id": "configCategory", "label": "Config Category", "type": "text" }
+      ]
+    }
+  }
+}

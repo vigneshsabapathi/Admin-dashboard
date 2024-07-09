@@ -1,0 +1,103 @@
+{
+  "auditMaster": {
+    "metadata": {
+      "pageTitle": "Audit Master",
+      "addNewButtonText": "Add New"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Audits",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Unique Tenants",
+        "calculationType": "uniqueCount",
+        "field": "tenantId"
+      },
+      {
+        "id": 3,
+        "title": "Unique Actions",
+        "calculationType": "uniqueCount",
+        "field": "action"
+      },
+      {
+        "id": 4,
+        "title": "Unique Users",
+        "calculationType": "uniqueCount",
+        "field": "userId"
+      }
+    ],
+    "auditTable": {
+      "headers": [
+        { "id": "auditId", "label": "Audit Id" },
+        { "id": "tenantId", "label": "Tenant Id" },
+        { "id": "timestamp", "label": "Timestamp" },
+        { "id": "action", "label": "Action" },
+        { "id": "ipAddress", "label": "IP Address" },
+        { "id": "userId", "label": "User Id" },
+        { "id": "edit", "label": "Edit" },
+        { "id": "delete", "label": "Delete" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "auditId": "AUDIT12345",
+          "tenantId": "TENANT001",
+          "timestamp": "2024-01-01 12:00:00",
+          "action": "Login",
+          "ipAddress": "192.168.1.1",
+          "userId": "user1@example.com"
+        },
+        {
+          "id": 2,
+          "auditId": "AUDIT67890",
+          "tenantId": "TENANT002",
+          "timestamp": "2024-01-02 14:30:00",
+          "action": "Update Profile",
+          "ipAddress": "192.168.1.2",
+          "userId": "user2@example.com"
+        },
+        {
+          "id": 3,
+          "auditId": "AUDIT11223",
+          "tenantId": "TENANT003",
+          "timestamp": "2024-01-03 09:15:00",
+          "action": "Logout",
+          "ipAddress": "192.168.1.3",
+          "userId": "user3@example.com"
+        },
+        {
+          "id": 4,
+          "auditId": "AUDIT44556",
+          "tenantId": "TENANT001",
+          "timestamp": "2024-01-04 16:45:00",
+          "action": "Create Document",
+          "ipAddress": "192.168.1.4",
+          "userId": "user4@example.com"
+        },
+        {
+          "id": 5,
+          "auditId": "AUDIT77889",
+          "tenantId": "TENANT002",
+          "timestamp": "2024-01-05 11:30:00",
+          "action": "Delete Record",
+          "ipAddress": "192.168.1.5",
+          "userId": "user5@example.com"
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Audit Details",
+      "fields": [
+        { "id": "auditId", "label": "Audit Id", "type": "text" },
+        { "id": "tenantId", "label": "Tenant Id", "type": "text" },
+        { "id": "timestamp", "label": "Timestamp", "type": "text" },
+        { "id": "action", "label": "Action", "type": "text" },
+        { "id": "ipAddress", "label": "IP Address", "type": "text" },
+        { "id": "userId", "label": "User Id", "type": "text" }
+      ]
+    }
+  }
+}
