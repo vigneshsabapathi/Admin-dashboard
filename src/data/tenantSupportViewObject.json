@@ -1,0 +1,103 @@
+{
+  "tenantSupport": {
+    "metadata": {
+      "pageTitle": "Tenant Support",
+      "addNewButtonText": "Add New"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Tickets",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Unique Tenants",
+        "calculationType": "uniqueCount",
+        "field": "tenantId"
+      },
+      {
+        "id": 3,
+        "title": "Open Tickets",
+        "calculationType": "statusCount",
+        "status": "Open"
+      },
+      {
+        "id": 4,
+        "title": "Closed Tickets",
+        "calculationType": "statusCount",
+        "status": "Closed"
+      }
+    ],
+    "supportTable": {
+      "headers": [
+        { "id": "supportId", "label": "Support ID" },
+        { "id": "tenantId", "label": "Tenant ID" },
+        { "id": "ticketId", "label": "Ticket ID" },
+        { "id": "emailId", "label": "Email ID" },
+        { "id": "closeDate", "label": "Close Date" },
+        { "id": "status", "label": "Status" },
+        { "id": "edit", "label": "Edit" },
+        { "id": "delete", "label": "Delete" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "supportId": "SUPPORT12345",
+          "tenantId": "TENANT001",
+          "ticketId": "TICKET001",
+          "emailId": "support1@example.com",
+          "closeDate": "2024-01-15",
+          "status": "Closed"
+        },
+        {
+          "id": 2,
+          "supportId": "SUPPORT67890",
+          "tenantId": "TENANT002",
+          "ticketId": "TICKET002",
+          "emailId": "support2@example.com",
+          "closeDate": "2024-02-20",
+          "status": "In Progress"
+        },
+        {
+          "id": 3,
+          "supportId": "SUPPORT11223",
+          "tenantId": "TENANT003",
+          "ticketId": "TICKET003",
+          "emailId": "support3@example.com",
+          "closeDate": "2024-03-10",
+          "status": "Open"
+        },
+        {
+          "id": 4,
+          "supportId": "SUPPORT44556",
+          "tenantId": "TENANT001",
+          "ticketId": "TICKET004",
+          "emailId": "support4@example.com",
+          "closeDate": "2024-04-05",
+          "status": "Closed"
+        },
+        {
+          "id": 5,
+          "supportId": "SUPPORT77889",
+          "tenantId": "TENANT002",
+          "ticketId": "TICKET005",
+          "emailId": "support5@example.com",
+          "closeDate": "2024-05-01",
+          "status": "In Progress"
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Support Ticket Details",
+      "fields": [
+        { "id": "supportId", "label": "Support ID", "type": "text" },
+        { "id": "tenantId", "label": "Tenant ID", "type": "text" },
+        { "id": "ticketId", "label": "Ticket ID", "type": "text" },
+        { "id": "emailId", "label": "Email ID", "type": "email" },
+        { "id": "closeDate", "label": "Close Date", "type": "date" },
+        { "id": "status", "label": "Status", "type": "text" }
+      ]
+    }
+  }
+}
