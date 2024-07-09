@@ -1,0 +1,110 @@
+{
+  "schedulerDashboard": {
+    "metadata": {
+      "pageTitle": "Scheduler Dashboard",
+      "addNewButtonText": "Add New"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Jobs",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Unique Tenants",
+        "calculationType": "uniqueCount",
+        "field": "tenantId"
+      },
+      {
+        "id": 3,
+        "title": "Completed Jobs",
+        "calculationType": "statusCount",
+        "status": "Completed"
+      },
+      {
+        "id": 4,
+        "title": "Pending Jobs",
+        "calculationType": "statusCount",
+        "status": ["Pending", "Scheduled"]
+      }
+    ],
+    "jobTable": {
+      "headers": [
+        { "id": "scheduleId", "label": "Schedule ID" },
+        { "id": "tenantId", "label": "Tenant ID" },
+        { "id": "jobId", "label": "Job ID" },
+        { "id": "jobType", "label": "Job Type" },
+        { "id": "jobName", "label": "Job Name" },
+        { "id": "jobStatus", "label": "Job Status" },
+        { "id": "nextRunTime", "label": "Next Run Time" },
+        { "id": "edit", "label": "Edit" },
+        { "id": "delete", "label": "Delete" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "scheduleId": "SCHED12345",
+          "tenantId": "TENANT001",
+          "jobId": "JOB001",
+          "jobType": "Backup",
+          "jobName": "Daily Backup",
+          "jobStatus": "Completed",
+          "nextRunTime": "2024-01-15 01:00:00"
+        },
+        {
+          "id": 2,
+          "scheduleId": "SCHED67890",
+          "tenantId": "TENANT002",
+          "jobId": "JOB002",
+          "jobType": "Report",
+          "jobName": "Monthly Report",
+          "jobStatus": "Pending",
+          "nextRunTime": "2024-02-01 00:00:00"
+        },
+        {
+          "id": 3,
+          "scheduleId": "SCHED11223",
+          "tenantId": "TENANT003",
+          "jobId": "JOB003",
+          "jobType": "Maintenance",
+          "jobName": "System Cleanup",
+          "jobStatus": "In Progress",
+          "nextRunTime": "2024-01-10 03:00:00"
+        },
+        {
+          "id": 4,
+          "scheduleId": "SCHED44556",
+          "tenantId": "TENANT001",
+          "jobId": "JOB004",
+          "jobType": "Sync",
+          "jobName": "Data Synchronization",
+          "jobStatus": "Scheduled",
+          "nextRunTime": "2024-01-12 02:30:00"
+        },
+        {
+          "id": 5,
+          "scheduleId": "SCHED77889",
+          "tenantId": "TENANT002",
+          "jobId": "JOB005",
+          "jobType": "Backup",
+          "jobName": "Weekly Backup",
+          "jobStatus": "Completed",
+          "nextRunTime": "2024-01-14 23:00:00"
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Job Details",
+      "fields": [
+        { "id": "scheduleId", "label": "Schedule ID", "type": "text" },
+        { "id": "tenantId", "label": "Tenant ID", "type": "text" },
+        { "id": "jobId", "label": "Job ID", "type": "text" },
+        { "id": "jobType", "label": "Job Type", "type": "text" },
+        { "id": "jobName", "label": "Job Name", "type": "text" },
+        { "id": "jobStatus", "label": "Job Status", "type": "text" },
+        { "id": "nextRunTime", "label": "Next Run Time", "type": "text" }
+      ]
+    }
+  }
+}
