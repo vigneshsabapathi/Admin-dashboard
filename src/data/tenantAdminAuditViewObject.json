@@ -1,0 +1,75 @@
+{
+  "tenantAdminAudit": {
+    "metadata": {
+      "pageTitle": "Tenant Admin Audit",
+      "addNewButtonText": "Add New"
+    },
+    "statCards": [
+      {
+        "id": 1,
+        "title": "Total Audits",
+        "calculationType": "count"
+      },
+      {
+        "id": 2,
+        "title": "Unique Tenants",
+        "calculationType": "uniqueCount",
+        "field": "tenantId"
+      },
+      {
+        "id": 3,
+        "title": "Unique Actions",
+        "calculationType": "uniqueCount",
+        "field": "actionHistory"
+      },
+      {
+        "id": 4,
+        "title": "Unique IP Addresses",
+        "calculationType": "uniqueCount",
+        "field": "ipAddress"
+      }
+    ],
+    "auditTable": {
+      "headers": [
+        { "id": "tenantId", "label": "Tenant ID" },
+        { "id": "loginTime", "label": "Login Time" },
+        { "id": "ipAddress", "label": "IP Address" },
+        { "id": "actionHistory", "label": "Action History" },
+        { "id": "edit", "label": "Edit" },
+        { "id": "delete", "label": "Delete" }
+      ],
+      "data": [
+        {
+          "id": 1,
+          "tenantId": "TENANT001",
+          "loginTime": "2024-01-01 12:00:00",
+          "ipAddress": "192.168.1.1",
+          "actionHistory": "Login"
+        },
+        {
+          "id": 2,
+          "tenantId": "TENANT002",
+          "loginTime": "2024-02-01 14:00:00",
+          "ipAddress": "192.168.1.2",
+          "actionHistory": "Logout"
+        },
+        {
+          "id": 3,
+          "tenantId": "TENANT003",
+          "loginTime": "2024-03-01 16:00:00",
+          "ipAddress": "192.168.1.3",
+          "actionHistory": "Update"
+        }
+      ]
+    },
+    "detailsForm": {
+      "title": "Selected Audit Details",
+      "fields": [
+        { "id": "tenantId", "label": "Tenant ID", "type": "text" },
+        { "id": "loginTime", "label": "Login Time", "type": "datetime-local" },
+        { "id": "ipAddress", "label": "IP Address", "type": "text" },
+        { "id": "actionHistory", "label": "Action History", "type": "text" }
+      ]
+    }
+  }
+}
